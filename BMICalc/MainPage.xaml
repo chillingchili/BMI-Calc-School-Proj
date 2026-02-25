@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:BMICalc.ViewModels"
+    x:Class="BMICalc.MainPage"
+    BackgroundColor="{StaticResource BackgroundColor}"
+    Title="">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,56,24,40" Spacing="0">
+
+            <Label Text="BMI" Style="{StaticResource HeaderFont}" Margin="0,0,0,0"/>
+            <Label Text="CALC" Style="{StaticResource HeaderFont}"
+                   TextColor="{StaticResource AccentColor}" Margin="0,-14,0,4"/>
+
+            <BoxView HeightRequest="3" BackgroundColor="{StaticResource AccentColor}"
+                     HorizontalOptions="Fill" Margin="0,0,0,28"/>
+
+            <Label Text="UNIT SYSTEM" Style="{StaticResource MutedLabel}" Margin="0,0,0,8"/>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="3" Margin="0,0,0,32">
+                <Button Grid.Column="0" Text="METRIC / KG·CM"
+                        Command="{Binding SwitchMetricCommand}"
+                        Style="{StaticResource ToggleButtonActive}"
+                        Opacity="{Binding MetricButtonAlpha}"/>
+                <Button Grid.Column="1" Text="IMPERIAL / LB·FT"
+                        Command="{Binding SwitchImperialCommand}"
+                        Style="{StaticResource ToggleButtonInactive}"
+                        Opacity="{Binding ImperialButtonAlpha}"/>
+            </Grid>
+
+            <VerticalStackLayout IsVisible="{Binding IsMetric}" Spacing="0">
+
+                <Label Text="HEIGHT" Style="{StaticResource MutedLabel}" Margin="0,0,0,6"/>
+                <Border Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="2"
+                        BackgroundColor="{StaticResource SurfaceColor}"
+                        Margin="0,0,0,16">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0"/>
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" Padding="14,0">
+                        <Entry Grid.Column="0"
+                               Style="{StaticResource BrutalistEntry}"
+                               Text="{Binding HeightCm}"
+                               Placeholder="000"
+                               ReturnCommand="{Binding CalculateCommand}"/>
+                        <Label Grid.Column="1" Text="CM"
+                               Style="{StaticResource SubheaderFont}"
+                               VerticalOptions="Center" Margin="0,0,4,0"/>
+                    </Grid>
+                </Border>
+
+                <Label Text="WEIGHT" Style="{StaticResource MutedLabel}" Margin="0,0,0,6"/>
+                <Border Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="2"
+                        BackgroundColor="{StaticResource SurfaceColor}"
+                        Margin="0,0,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0"/>
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" Padding="14,0">
+                        <Entry Grid.Column="0"
+                               Style="{StaticResource BrutalistEntry}"
+                               Text="{Binding WeightKg}"
+                               Placeholder="000"
+                               ReturnCommand="{Binding CalculateCommand}"/>
+                        <Label Grid.Column="1" Text="KG"
+                               Style="{StaticResource SubheaderFont}"
+                               VerticalOptions="Center" Margin="0,0,4,0"/>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding IsImperial}" Spacing="0">
+
+                <Label Text="HEIGHT" Style="{StaticResource MutedLabel}" Margin="0,0,0,6"/>
+                <Grid ColumnDefinitions="*,8,*" Margin="0,0,0,16">
+                    <Border Grid.Column="0"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="2"
+                            BackgroundColor="{StaticResource SurfaceColor}">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="0"/></Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto" Padding="14,0">
+                            <Entry Grid.Column="0"
+                                   Style="{StaticResource BrutalistEntry}"
+                                   Text="{Binding HeightFt}"
+                                   Placeholder="0"/>
+                            <Label Grid.Column="1" Text="FT"
+                                   Style="{StaticResource SubheaderFont}"
+                                   VerticalOptions="Center" Margin="0,0,4,0"/>
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="2"
+                            Stroke="{StaticResource BorderColor}"
+                            StrokeThickness="2"
+                            BackgroundColor="{StaticResource SurfaceColor}">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="0"/></Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto" Padding="14,0">
+                            <Entry Grid.Column="0"
+                                   Style="{StaticResource BrutalistEntry}"
+                                   Text="{Binding HeightIn}"
+                                   Placeholder="0"
+                                   ReturnCommand="{Binding CalculateCommand}"/>
+                            <Label Grid.Column="1" Text="IN"
+                                   Style="{StaticResource SubheaderFont}"
+                                   VerticalOptions="Center" Margin="0,0,4,0"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Label Text="WEIGHT" Style="{StaticResource MutedLabel}" Margin="0,0,0,6"/>
+                <Border Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="2"
+                        BackgroundColor="{StaticResource SurfaceColor}">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="0"/></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto" Padding="14,0">
+                        <Entry Grid.Column="0"
+                               Style="{StaticResource BrutalistEntry}"
+                               Text="{Binding WeightLbs}"
+                               Placeholder="000"
+                               ReturnCommand="{Binding CalculateCommand}"/>
+                        <Label Grid.Column="1" Text="LB"
+                               Style="{StaticResource SubheaderFont}"
+                               VerticalOptions="Center" Margin="0,0,4,0"/>
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <Label Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding HasError}"
+                   FontFamily="ChakraPetch-Regular"
+                   TextColor="{StaticResource DangerColor}"
+                   FontSize="11"
+                   CharacterSpacing="2"
+                   Margin="0,12,0,0"/>
+
+            <Button Text="CALCULATE"
+                    Command="{Binding CalculateCommand}"
+                    Style="{StaticResource CalculateButton}"
+                    Margin="0,24,0,0"/>
+
+            <Grid IsVisible="{Binding HasResult}" Margin="0,28,0,0"
+                  ColumnDefinitions="5,*">
+
+                <BoxView Grid.Column="0"
+                         BackgroundColor="{Binding CategoryColor}"
+                         HorizontalOptions="Fill" VerticalOptions="Fill"/>
+
+                <VerticalStackLayout Grid.Column="1"
+                                     BackgroundColor="{StaticResource SurfaceLiftColor}"
+                                     Padding="18,16,18,18"
+                                     Spacing="2">
+
+                    <Label Text="{Binding BmiDisplay}"
+                           Style="{StaticResource DisplayFont}"
+                           Margin="0,-8,0,0"/>
+
+                    <Label Text="{Binding Category}"
+                           FontFamily="BigShoulders-Black"
+                           FontSize="20"
+                           CharacterSpacing="5"
+                           TextColor="{Binding CategoryColor}"
+                           Margin="0,-4,0,12"/>
+
+                    <Label Text="BMI SCALE" Style="{StaticResource MutedLabel}" Margin="0,0,0,6"/>
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="2">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <BoxView HeightRequest="6" BackgroundColor="#5BC8FF" HorizontalOptions="Fill"/>
+                            <Label Text="&lt;18.5" Style="{StaticResource MutedLabel}" HorizontalOptions="Center"/>
+                            <Label Text="UNDER" Style="{StaticResource MutedLabel}" HorizontalOptions="Center" FontSize="9"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <BoxView HeightRequest="6" BackgroundColor="{StaticResource AccentColor}" HorizontalOptions="Fill"/>
+                            <Label Text="18.5–24.9" Style="{StaticResource MutedLabel}" HorizontalOptions="Center"/>
+                            <Label Text="NORMAL" Style="{StaticResource MutedLabel}" HorizontalOptions="Center" FontSize="9"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2" Spacing="4">
+                            <BoxView HeightRequest="6" BackgroundColor="#FF8C42" HorizontalOptions="Fill"/>
+                            <Label Text="25–29.9" Style="{StaticResource MutedLabel}" HorizontalOptions="Center"/>
+                            <Label Text="OVER" Style="{StaticResource MutedLabel}" HorizontalOptions="Center" FontSize="9"/>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="3" Spacing="4">
+                            <BoxView HeightRequest="6" BackgroundColor="#FF4C4C" HorizontalOptions="Fill"/>
+                            <Label Text="≥30" Style="{StaticResource MutedLabel}" HorizontalOptions="Center"/>
+                            <Label Text="OBESE" Style="{StaticResource MutedLabel}" HorizontalOptions="Center" FontSize="9"/>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Grid>
+
+            <BoxView HeightRequest="32" BackgroundColor="Transparent"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

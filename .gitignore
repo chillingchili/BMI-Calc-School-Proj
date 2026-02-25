@@ -1,0 +1,36 @@
+# Visual Studio cache / options directory
+.vs/
+
+# Build output
+bin/
+obj/
+
+# NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+
+# Android
+*.apk
+*.aab
+
+# iOS / Mac
+*.ipa
+*.app
+*.dSYM.zip
+*.dSYM
+
+# Rider
+.idea/
+*.sln.iml
+
+# OS
+.DS_Store
+Thumbs.db
